@@ -1,0 +1,253 @@
+﻿############### HOMEWORK 1, ISEN 613, DUE FRI, SEPT 7, 2018, 11:59PM ###############
+
+# YOUR NAME: ....
+
+# RULES:
+#
+# 1) You can discuss the homework with each other in general terms,                       
+#    but you must write your own solutions and not copy from anyone.     
+#
+# 2) Work your way through the R intro and the ISLR Section 2.3.
+#
+# 3) Edit your answers into this file following each "ANSWER:".
+#
+# 4) Post your solutions to e-campus
+#    
+#    The solutions file must have extension '.txt', NOT '.doc'.
+#    The filename should have this format: LastName-FirstName-hw01.txt
+#    An example would be:  Eksin-Ceyhun-hw01.txt
+#
+# 5) Essential criteria for grading, in this order of importance:
+#    - Generalizability of the solution: Generalizability refers to how
+#      difficult it would be to modify the code to work for larger or
+#      slightly different problems.
+#    - Conciseness: Among two solutions, usually the shorter is preferable.
+
+
+
+# PROBLEM 0:
+# Set yourself up with R on your computer.
+# Follow the instructions on Lecture notes.
+
+
+
+# PROBLEM 1: (1pt)
+# What happens in this expression?
+    1:10 - 0:1
+# ANSWER: c(1,2,3,4,5,6,7,8,9,10) - c(0,1,0,1,0,1,0,1,0,1)
+          [1] 1 1 3 3 5 5 7 7 9 9
+It gives a vector by subtracting a vector 0:1(2 elements) from vector 1:10(10 elements) by recyling the 2 elements to a vector of 10 element.
+
+
+
+# PROBLEM 2: (1pt)
+# Create a vector consisting of the numbers 1 to N, where 1 appears
+# once, 2 appears twice, 3 appears 3 times,...
+# Show results for N=5.
+# ANSWER:   rep(c(1,2,3,4,5),c(1,2,3,4,5))
+ [1] 1 2 2 3 3 3 4 4 4 4 5 5 5 5 5
+
+
+# PROBLEM 3: (2pts)
+# Data generation and matrix indexing
+# 
+(a) Generate a vector with 25 elements and each element independently follows a normal 
+# distribution (with mean =0 and sd=1);
+
+# ANSWER:   x <- rnorm(25,0,1)
+
+# (b) Reshape this vector into a 5 by 5 matrix in two ways (arranged by row and column);
+
+# ANSWER:by column    matrix(x,nrow=5,ncol=5)
+           
+         by row       matrix(x,nrow=5,ncol=5,byrow=T)
+           
+# (c) Similarly, generate another vector with 100 elements and plot its histogram.
+
+# ANSWER:  y <- rnorm(100,0,1)
+           hist(y)
+
+# (d) Explain the plots in your own words.
+
+# ANSWER: The histogram of this function shows that it is following a normal distribution as most of the elements are loacted towards the centre(which is 0) and their frequency is decreasing exponentially on the either side.
+ 
+# PROBLEM 4: (2pts)
+# (a) Upload the Auto data set, which is in the ISLR library. Understand information about this data 
+# set by one of the ways we introduced in class (like “help(Auto)” and names(Auto))
+
+# ANSWER: This data frame is a observations of 392 vehicles made on 9 variables such as Gas mileage, horsepower,no of cylinders,weight, acceleraion etc. This dataset is originally taken from StatLib library maintained at CMU. It was first used during 1983 American statistical Assosiation symposium.	
+
+
+# (b) Make a scatterplot between every pair of the following variables (try to plot all scatterplots
+# in one figure; hint: use pairs() command): “mpg”, “displacement”, “horsepower”, “weight”, 
+# “acceleration”. By observing the plots, do you think the two variables in each scatterplot are 
+# correlated? If so, how?
+
+# ANSWER:
+attach(Auto)
+pairs(~mpg+displacement+horsepower+weight+acceleration)
+
+Yes there is a relationship between the variables as plot of these pairs are following a trend. sometimes increasing sometimes decreasing with one another
+
+
+ 
+# (c) Draw a line on the scatterplot of mpg vs. horsepower to represent relationship between the two 
+# variables. 
+
+# ANSWER: 
+
+attach(Auto)
+plot(horsepower, mpg, main="Scatterplot Example", 
+     xlab="HORSEPOWER", ylab="MilesPerGallon ")
+abline(lm(mpg~horsepower), col="red") # regression line (y~x) 
+
+# (d) Is there a better way to represent their relationship rather than the linear model you just  
+# drew? (No need to use a mathematical formula. Just draw something on the figure) 
+
+# ANSWER:
+attach(Auto)
+plot(horsepower, mpg, main="Scatterplot Example", 
+     xlab="HORSEPOWER", ylab="MilesPerGallon ")
+abline(lm(mpg~horsepower), col="red") # regression line (y~x) 
+lines(lowess(horsepower,mpg), col="blue") # lowess line (x,y)
+
+
+# PROBLEM 5: (2pts)
+# Create a 6x3 matrix named 'dat' with
+# row names "Adam", "Anna", "Bill", "Berta", "Chris", "Cindy".
+# and column names "Age", "Gender", "Height".
+# Fill the columns with realistically looking random numbers
+# so someone could actually believe they are real data.
+# Use numeric codes 0 and 1 for gender.
+# Assume the ages to be uniformly distributed over 18:24.
+# Assume men's mean height is 68in and women's 4in less, 
+# but both heights have the same sdev.
+# Finally assume normal distributions for heights,
+# except the numbers should be whole inches to look realistic.
+# ANSWER:
+
+
+dat<-matrix(0, nrow = 6, ncol = 3)
+rownames(c("Adam", "Anna", "Bill", "Berta", "Chris", "Cindy"))
+colnames(c("Age", "Gender", "Heightdat"))
+x<-round(runif(6,18,24))
+y<-round(runif(6,0,1))
+dat[,1]<-x
+dat[,2]<-y
+for (i in 1:6) 
+  { if(dat[i,2]==0)
+    {dat[i,3]<-round(rnorm(1,68,2))
+    } else{dat[i,3]<-round(rnorm(1,64,2))
+          }
+  }
+ dat
+
+
+
+# BONUS QUESTION: (1 extra pt)
+# Create an artificial data matrix with 100000 rows and
+# columns "Gender", "Age", "Graduated".
+# Assume P(female)=0.57 (code 1) and P(male)=0.43 (code 0).
+# Assume Age is uniformly distributed over 18:30 (integers).
+# Assume Graduated is a binary variable with codes 0/1 (no/yes).
+# Assume further the probabilities of having graduated are
+# a function of Age as follows:  0,.01,.1,.2,.7,.95,.99,.99,...
+# for ages 18 and up.
+# (Hint: To fill 'Graduated', create first a column 'prob' that for
+# each individual contains the probability of having graduated
+# dependent on 'Age'.  This is the tricky part.
+# Then set 'Graduated' to  runif(100000)<prob.)
+# Finally, using the function 'table()', form frequency tables of
+# - Graduated,
+# - Gender x Age,
+# - Gender x Age x Graduated,  and
+# - Age, but only for the Graduates.
+# Check whether the output of the 'table' function is of type 'array'.
+# ANSWER:
+
+x<-c(0,1)
+p<-c(0.43,0.57)
+Gender<-sample(x,100000,replace=T,prob =p)
+Age<-round(runif(100000,18,30))
+C<-1:100000
+for (i in 1:100000){
+  if (Age[i]==18) {
+    C[i]=0
+  } else if (Age[i]==19) {
+    C[i]=0.01
+  } else if (Age[i]==20) {
+    C[i]=0.1
+  } else if (Age[i]==21) {
+    C[i]=0.2
+  } else if (Age[i]==22) {
+    C[i]=0.7
+  } else if (Age[i]==23) {
+    C[i]=0.95
+  }else {
+    C[i]=0.99 }}
+G<- runif(100000)<C
+M<-matrix(0,100000,3)
+colnames(M)<-c("GENDER","AGE","GRADUATED")
+M[1:100000,1]<-Gender
+M[1:100000,2]<-Age
+M[1:100000,3]<-G
+M
+
+
+
+
+# BONUS QUESTION #2: (1 extra pt)
+# Create the following matrix elegantly:
+      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+ [1,]    0    1    0    1    0    1    0    1    0     1
+ [2,]    1    0    1    0    1    0    1    0    1     0
+ [3,]    0    1    0    1    0    1    0    1    0     1
+ [4,]    1    0    1    0    1    0    1    0    1     0
+ [5,]    0    1    0    1    0    1    0    1    0     1
+ [6,]    1    0    1    0    1    0    1    0    1     0
+ [7,]    0    1    0    1    0    1    0    1    0     1
+ [8,]    1    0    1    0    1    0    1    0    1     0
+ [9,]    0    1    0    1    0    1    0    1    0     1
+[10,]    1    0    1    0    1    0    1    0    1     0
+# ANSWER:
+
+
+A<-10
+B<-10
+C<-A*B
+D<-0:1
+E<-1:0
+M<-matrix(0,A,B)
+for(i in 1:C){
+  if(i%%2==0){
+    M[i,]<-E
+  } else{
+    M[i,]<-D
+  }
+}
+M
+
+
+
+
+
+
+
+
+
+## SOME GENERAL COMMENTS AND RECOMMENDATIONS:
+##
+## - The temptation is often to handcraft a solution if there are
+##   only few repetitions involved.  Try to avoid such
+##   handcrafting so that your solutions generalize well if the problems are enlarged.
+##
+## - Try to avoid repeating constants such as '100000'.  Think ahead
+##   for the situations that you have to change the size of the problem.
+##   Assign constants to variables, and from then on refer to the
+##   variable, not the constant.  This also forces you to think general.
+##
+## - R has some powerful functions that allow us to do some combinatorial
+##   problems simply.  Examples are:
+##   * 'rep()' in its various forms, such as rep(1:3,5)  or  rep(11:13,1:3).
+##   * using vectors for mapping, such as c("red","green","blue")[c(1,3,2,2,1,3)]
+##     and reverse  c(red=1, green=2, blue=3)[c("red","red","blue","green","blue")]
