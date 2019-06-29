@@ -2,7 +2,7 @@
 *This repository contains codes for homework assignments and projects assigned to me during one of my classes in my masters.
 All these assignments have been done on R and the resulting code and analysis have been reported through a word document.
 
-*hw01- Assignment on R Programming Language
+**hw01- Assignment on R Programming Language
 *hw02- Assignment on Linear Regression 
 *hw03- Assignment on Classification(Logistic regression, Linear Discriminant Analysis (LDA), Quadratic Discriminant Analysis(QDA))
 *hw04- Assignment on Validation and Cross validation techniques.
